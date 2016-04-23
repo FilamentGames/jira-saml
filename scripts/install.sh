@@ -60,7 +60,7 @@ rm -vf $ATLASSIAN_HOME/atlassian-jira/includes/loginform.append.jsp
 
 # delete precomipled jsp
 mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp.class{,.orig}
-mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp$1.class{,.orig}
+mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp\$1.class{,.orig}
 
 
 cd -
