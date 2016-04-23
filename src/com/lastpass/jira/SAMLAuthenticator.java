@@ -30,7 +30,7 @@ import java.security.SecureRandom;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.atlassian.jira.user.util.UserUtil;
+import com.atlassian.jira.user.UserUtils;
 import com.atlassian.jira.event.user.UserEventType;
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.JiraException;
@@ -128,7 +128,7 @@ public class SAMLAuthenticator extends JiraSeraphAuthenticator
             String authrequest = client.generateAuthnRequest(requestId);
             String url = client.getIdPConfig().getLoginUrl();
             url = url +
-                "?SAMLRequest=" + URLEncoder.encode(authrequest, "UTF-8");
+                "&SAMLRequest=" + URLEncoder.encode(authrequest, "UTF-8");
 
             if (relayState != null)
                 url += "&RelayState=" + URLEncoder.encode(relayState, "UTF-8");
@@ -152,10 +152,8 @@ public class SAMLAuthenticator extends JiraSeraphAuthenticator
             return sessionPrincipal;
 
         if (request.getParameter("SAMLResponse") == null) {
-            // we don't have a user, nor a saml token to look at.
-            // return null, so caller will redirect to saml login
-            // page.
-            return null;
+            // we don't have a user, nor a saml token to look at so perform default authentication
+            return super.getUser(request,response);
         }
 
         // Consume and validate the assertions in the response.
@@ -172,28 +170,13 @@ public class SAMLAuthenticator extends JiraSeraphAuthenticator
         String username = aset.getNameId();
         logger.debug("SAML user: " + username);
 
-        UserUtil userUtil = new ComponentAccessor().getUserUtil();
-        if (!userUtil.userExists(username)) {
-
-            String email = username;
-            String fullname = username;
-
-            List<String> namelist = aset.getAttributes().get("Name");
-            if (namelist != null && !namelist.isEmpty())
-                fullname = namelist.get(0);
-
-            String password = generatePassword(20);
-
-            try {
-                userUtil.createUserWithNotification(username, password,
-                    email, fullname, UserEventType.USER_CREATED);
-            } catch (JiraException e) {
-                logger.error("Unable to auto-create user", e);
-                return null;
-            }
+        Principal p = UserUtils.getUserByEmail(username);        
+       
+        if (p == null) {
+            logger.error("User " + username + " not found in directory");
+            return null;
         }
 
-        Principal p = getUser(username);
         putPrincipalInSessionContext(request, p);
         return p;
     }

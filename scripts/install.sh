@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #
 # This script (run from the tarball) installs the JIRA plugin.
 # You may also consider using the rpm or deb package generated
@@ -50,12 +51,17 @@ echo "Copying files..."
 cp -bvdpr -S .orig --no-preserve=ownership . $ATLASSIAN_HOME
 
 # remove joda-time conflict (now in tomcat libdir)
-mv -v $ATLASSIAN_HOME/atlassian-jira/WEB-INF/lib/joda-time-2.3.jar{,.orig}
+#mv -v $ATLASSIAN_HOME/atlassian-jira/WEB-INF/lib/joda-time-2.3.jar{,.orig}
 
 # append "Login with SAML" button
 cp $ATLASSIAN_HOME/atlassian-jira/includes/loginform.jsp{,.orig}
 cat $ATLASSIAN_HOME/atlassian-jira/includes/loginform.append.jsp >> $ATLASSIAN_HOME/atlassian-jira/includes/loginform.jsp
 rm -vf $ATLASSIAN_HOME/atlassian-jira/includes/loginform.append.jsp
+
+# delete precomipled jsp
+mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp.class{,.orig}
+mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp$1.class{,.orig}
+
 
 cd -
 

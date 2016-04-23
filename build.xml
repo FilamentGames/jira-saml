@@ -8,7 +8,7 @@
     <property name="output.dir" value="out"/>
     <property name="conf.dir" value="conf"/>
     <property name="output.jar" value="lastpass-jira-saml-${version}.jar"/>
-    <property name="jira.home.dir" value="/opt/atlassian/jira"/>
+    <property name="jira.home.dir" value="/opt/jira/app"/>
     <property name="DESTDIR" value=""/>
     <property name="pkgtype" value="deb"/>
     <property name="fpm.excludes" value=""/>
@@ -135,13 +135,13 @@
         <copy todir="${DESTDIR}${jira.home.dir}/atlassian-jira/WEB-INF/classes/"
             file="${conf.dir}/seraph-config.xml"/>
 
-        <copy todir="${DESTDIR}${jira.home.dir}/lib/">
+        <copy todir="${DESTDIR}${jira.home.dir}/atlassian-jira/WEB-INF/lib/">
             <fileset dir="lib">
                 <include name="opensaml-2.6.1.jar"/>
                 <include name="xmltooling-1.4.1.jar"/>
                 <include name="xmlsec-*.jar"/>
                 <include name="openws-1.5.1.jar"/>
-                <include name="joda-time-2.3.jar"/>
+                <include name="joda-time-2.8.2.jar"/>
                 <include name="esapi-2.0.1.jar"/>
             </fileset>
         </copy>

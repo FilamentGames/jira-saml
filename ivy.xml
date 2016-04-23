@@ -1,7 +1,7 @@
 <ivy-module version="2.0">
     <info organisation="com.lastpass" module="saml-jira"/>
     <dependencies>
-        <dependency org="joda-time" name="joda-time" rev="2.3"/>
+        <dependency org="joda-time" name="joda-time" rev="2.8.2"/>
         <dependency org="org.opensaml" name="opensaml" rev="2.6.1"/>
         <dependency org="javax.servlet" name="servlet-api" rev="2.5"/>
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.2"/>
