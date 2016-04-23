@@ -58,10 +58,9 @@ cp $ATLASSIAN_HOME/atlassian-jira/includes/loginform.jsp{,.orig}
 cat $ATLASSIAN_HOME/atlassian-jira/includes/loginform.append.jsp >> $ATLASSIAN_HOME/atlassian-jira/includes/loginform.jsp
 rm -vf $ATLASSIAN_HOME/atlassian-jira/includes/loginform.append.jsp
 
-# delete precomipled jsp
-mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp.class{,.orig}
-mv $ATLASSIAN_HOME/atlassian-jira/WEB-INF/classes/jsp/includes/loginform_jsp\$1.class{,.orig}
-
+# Patch web.xml to remove precomipled login jsps
+cp /opt/jira/app/atlassian-jira/WEB-INF/web.xml{,.orig}
+sed -i -e "s#<servlet-class>jsp.login_jsp</servlet-class>#<url-pattern>/login.jsp</url-pattern>#g" $ATLASSIAN_HOME/atlassian-jira/WEB-INF/web.xml
 
 cd -
 
