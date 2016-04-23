@@ -65,6 +65,12 @@ cp /opt/jira/app/atlassian-jira/WEB-INF/web.xml{,.orig}
 #        <servlet-name>jsp.login_jsp</servlet-name>
 #        <servlet-class>jsp.login_jsp</servlet-class>
 #    </servlet>
+# and
+#<servlet-mapping>
+#        <servlet-name>jsp.login_jsp</servlet-name>
+#        <url-pattern>/login.jsp</url-pattern>
+#</servlet-mapping>
+#
 #from web.xml
 
 cd -
